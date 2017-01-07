@@ -7,6 +7,13 @@ RUN apk add --update gcc g++ make cmake wget unzip
 
 RUN mkdir /tmp/opencv \
     && cd /tmp/opencv \
-    && wget https://github.com/opencv/opencv/archive/$OPENCV_VERSION.zip \
+    && wget -q https://github.com/opencv/opencv/archive/$OPENCV_VERSION.zip \
     && unzip $OPENCV_VERSION.zip \
-    && rm $OPENCV_VERSION.zip
+    && rm $OPENCV_VERSION.zip \
+    && mkdir build \
+    && cd build \
+    && cmake ../opencv-$OPENCV_VERSION \
+    && make -j4 \
+    && make install \
+    && cd / \
+    && rm /tmp/opencv
